@@ -1,0 +1,26 @@
+{
+  "name": "UAppToolKit.VisualScriptingMcp.UnityCli.Editor",
+  "rootNamespace": "UAppToolKit.VisualScriptingMcp.UnityCli.Editor",
+  "references": [
+    "UAppToolKit.VisualScriptingMcp.Editor",
+    "Unity.Pipeline.Attributes"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll"
+  ],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "UAPP_VS_MCP_UNITY_CLI"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.unity.pipeline",
+      "expression": "0.9.1-exp.1",
+      "define": "UAPP_VS_MCP_UNITY_CLI"
+    }
+  ]
+}

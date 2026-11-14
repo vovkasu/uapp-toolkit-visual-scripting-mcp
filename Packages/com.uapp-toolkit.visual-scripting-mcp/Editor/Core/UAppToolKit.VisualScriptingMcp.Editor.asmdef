@@ -1,0 +1,20 @@
+{
+  "name": "UAppToolKit.VisualScriptingMcp.Editor",
+  "rootNamespace": "UAppToolKit.VisualScriptingMcp.Editor",
+  "references": [
+    "Unity.VisualScripting.Core",
+    "Unity.VisualScripting.Flow",
+    "Unity.VisualScripting.State",
+    "Unity.VisualScripting.Core.Editor",
+    "Unity.VisualScripting.Flow.Editor",
+    "Unity.VisualScripting.State.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll"
+  ],
+  "autoReferenced": true
+}

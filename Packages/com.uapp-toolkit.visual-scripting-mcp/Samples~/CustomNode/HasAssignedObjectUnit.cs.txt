@@ -1,0 +1,20 @@
+using Unity.VisualScripting;
+using UnityEngine;
+
+namespace UAppToolKit.VisualScriptingMcp.Samples
+{
+    [UnitTitle("Has Assigned Object")]
+    [UnitCategory("Tutorials/Validation")]
+    public sealed class HasAssignedObjectUnit : Unit
+    {
+        [DoNotSerialize] public ValueInput Target { get; private set; }
+        [DoNotSerialize] public ValueOutput IsAssigned { get; private set; }
+
+        protected override void Definition()
+        {
+            Target = ValueInput<Object>("target", null).AllowsNull();
+            IsAssigned = ValueOutput<bool>("isAssigned", flow => flow.GetValue<Object>(Target) != null);
+            Requirement(Target, IsAssigned);
+        }
+    }
+}

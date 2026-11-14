@@ -1,0 +1,36 @@
+{
+  "name": "UAppToolKit.VisualScriptingMcp.Editor.Tests",
+  "rootNamespace": "UAppToolKit.VisualScriptingMcp.Editor.Tests",
+  "references": [
+    "Unity.VisualScripting.Core",
+    "Unity.VisualScripting.Flow",
+    "Unity.VisualScripting.State",
+    "Unity.VisualScripting.Core.Editor",
+    "Unity.VisualScripting.Flow.Editor",
+    "Unity.VisualScripting.State.Editor",
+    "UAppToolKit.VisualScriptingMcp.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll"
+  ],
+  "autoReferenced": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.coplaydev.unity-mcp",
+      "expression": "[10.1.0,11.0.0)",
+      "define": "UAPP_VS_MCP_COPLAYDEV"
+    },
+    {
+      "name": "com.unity.pipeline",
+      "expression": "0.9.1-exp.1",
+      "define": "UAPP_VS_MCP_UNITY_CLI"
+    }
+  ]
+}

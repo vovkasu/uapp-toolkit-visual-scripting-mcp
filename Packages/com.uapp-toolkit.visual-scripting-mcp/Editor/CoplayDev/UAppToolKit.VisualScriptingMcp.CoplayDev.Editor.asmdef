@@ -1,0 +1,26 @@
+{
+  "name": "UAppToolKit.VisualScriptingMcp.CoplayDev.Editor",
+  "rootNamespace": "UAppToolKit.VisualScriptingMcp.CoplayDev.Editor",
+  "references": [
+    "UAppToolKit.VisualScriptingMcp.Editor",
+    "MCPForUnity.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "Newtonsoft.Json.dll"
+  ],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "UAPP_VS_MCP_COPLAYDEV"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.coplaydev.unity-mcp",
+      "expression": "[10.1.0,11.0.0)",
+      "define": "UAPP_VS_MCP_COPLAYDEV"
+    }
+  ]
+}

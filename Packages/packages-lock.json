@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.uapp-toolkit.visual-scripting-mcp": {
+      "version": "file:com.uapp-toolkit.visual-scripting-mcp",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.visualscripting": "1.9.11",
+        "com.unity.nuget.newtonsoft-json": "3.2.2"
+      }
+    },
     "com.unity.2d.animation": {
       "version": "13.0.5",
       "depth": 0,

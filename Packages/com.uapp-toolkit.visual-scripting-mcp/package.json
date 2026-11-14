@@ -1,0 +1,18 @@
+{
+  "name": "com.uapp-toolkit.visual-scripting-mcp",
+  "version": "1.1.0",
+  "displayName": "UAppToolKit Visual Scripting MCP",
+  "description": "Editor-only tools for Unity Visual Scripting with optional CoplayDev MCP and Unity CLI / Pipeline adapters.",
+  "unity": "6000.3",
+  "dependencies": {
+    "com.unity.visualscripting": "1.9.11",
+    "com.unity.nuget.newtonsoft-json": "3.2.2"
+  },
+  "samples": [
+    {
+      "displayName": "Custom Node Template",
+      "description": "Non-compiled C# template for a runtime Visual Scripting node.",
+      "path": "Samples~/CustomNode"
+    }
+  ]
+}
