@@ -47,6 +47,16 @@ In a new project, open a Visual Scripting graph and wait for initial setup befor
 working with settings. Until then, settings commands return
 `visual_scripting_not_initialized`; reading does not start node generation implicitly.
 
+## Visual Scripting Demo sample
+
+In Unity Package Manager, open this package's **Samples** tab and import
+**Visual Scripting Demo**. Open `Scenes/GraphShowcase.unity` and enter Play Mode
+to run embedded and external graphs on scene objects and prefabs. The sample
+also includes scenes for diagnosing an event mismatch, binding graphs and object
+references, and running a custom Unit. Its scenes run with either adapter or
+with the package core alone. Follow the
+[sample walkthrough](Samples~/VisualScriptingDemo/README.md) to try all 14 commands.
+
 ## Connecting through CoplayDev
 
 1. Install the dependencies and package as described above; wait for successful compilation.

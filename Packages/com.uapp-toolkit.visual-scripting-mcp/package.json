@@ -10,6 +10,11 @@
   },
   "samples": [
     {
+      "displayName": "Visual Scripting Demo",
+      "description": "Playable scenes and exercises for graph discovery, diagnosis, editing, composition, and custom nodes.",
+      "path": "Samples~/VisualScriptingDemo"
+    },
+    {
       "displayName": "Custom Node Template",
       "description": "Non-compiled C# template for a runtime Visual Scripting node.",
       "path": "Samples~/CustomNode"
