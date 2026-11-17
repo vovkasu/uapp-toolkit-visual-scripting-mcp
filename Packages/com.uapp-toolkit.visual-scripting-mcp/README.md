@@ -209,9 +209,10 @@ read the state first: the operation may have completed despite the lost response
   null clears the value. Uses an existing Variables component without adding one.
   Apply requires its preview revision; assignments support Undo without autosaving.
 - `vs_get_settings` → `vs_update_settings` with changes and expected_revision.
-  The package saves settings asynchronously; scheduled is not saved. Let the
-  Editor process UI updates, activating its window if necessary, and verify the
-  file before closing/reloading. Regenerate_nodes=true starts an expensive job;
+  Apply saves and reads back the changed settings before returning
+  `save_status=saved`, including in an unfocused GUI Editor. Undo/Redo uses the
+  same persistence path; preview/no-op returns `not_requested`.
+  Regenerate_nodes=true starts an expensive job;
   poll regeneration until completed/failed/interrupted instead of repeating apply.
   Settings Undo lasts until domain reload and does not undo database generation.
 - New C# nodes: see [CUSTOM_NODES.md](Documentation~/CUSTOM_NODES.md) for the template

@@ -157,7 +157,7 @@ The connection must be removed before its nodes. For nested embedded edits, pass
 
 Use an imported copy in a disposable project for this exercise because the settings apply to the project. Open a Visual Scripting graph and let initial setup complete, then open `CustomNodeLab.unity`.
 
-Visual Scripting saves settings through a delayed Editor callback. Verify the file before starting Play Mode or closing the Editor. During unattended testing, the unfocused GUI Editor did not flush the intermediate value; repeating this exercise in batchmode verified every saved value through both bridges. Report an unconfirmed disk write as incomplete.
+The package saves settings before apply returns `save_status: "saved"` and verifies the changed values by reading the file back. Undo/Redo uses the same path. This exercise works in an ordinary, unfocused Unity Editor through either bridge; batchmode and window activation are not required. The assistant should still verify the saved values and report any failed check.
 
 **Prompt**
 
@@ -239,7 +239,7 @@ Clone and bind apply requests use `expected_revision` from their own preview's `
 {"target":"<Binding Station machine target>","kind":"variable","variable_name":"DemoReference","reference":null,"dry_run":true}
 ```
 
-Settings use their own current revision. `save_status: "scheduled_by_visual_scripting"` means a disk write is scheduled; verify the file before closing the Editor. Explicit regeneration with `changes: {}` rebuilds the library without changing the setting lists. Poll `vs_get_settings` until `regeneration.state` is `completed`, `failed`, or `interrupted`.
+Settings use their own current revision. `save_status: "saved"` confirms that changed values were written and read back before apply returned; preview/no-op returns `not_requested`. Explicit regeneration with `changes: {}` rebuilds the library without changing the setting lists. Poll `vs_get_settings` until `regeneration.state` is `completed`, `failed`, or `interrupted`.
 
 ```json
 {"expected_revision":"<current settings revision>","changes":{"aot_safe_mode":true},"dry_run":true}
