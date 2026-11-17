@@ -58,6 +58,9 @@ with the package core alone. Follow the
 [sample walkthrough](Samples~/VisualScriptingDemo/README.md) for copyable AI prompts,
 example responses, and observable results covering all 14 commands.
 
+The [AI prompt validation report](Documentation~/DEMO_PROMPT_VALIDATION.md) records
+the actual responses and Unity results for all eight prompts through both bridges.
+
 ## Connecting through CoplayDev
 
 1. Install the dependencies and package as described above; wait for successful compilation.

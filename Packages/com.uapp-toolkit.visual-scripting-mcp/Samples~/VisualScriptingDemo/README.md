@@ -157,6 +157,8 @@ The connection must be removed before its nodes. For nested embedded edits, pass
 
 Use an imported copy in a disposable project for this exercise because the settings apply to the project. Open a Visual Scripting graph and let initial setup complete, then open `CustomNodeLab.unity`.
 
+Visual Scripting saves settings through a delayed Editor callback. Verify the file before starting Play Mode or closing the Editor. During unattended testing, the unfocused GUI Editor did not flush the intermediate value; repeating this exercise in batchmode verified every saved value through both bridges. Report an unconfirmed disk write as incomplete.
+
 **Prompt**
 
 ```text
