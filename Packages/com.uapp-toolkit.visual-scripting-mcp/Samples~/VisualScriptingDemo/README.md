@@ -12,6 +12,8 @@ Connect your AI client to either CoplayDev Unity MCP or Unity CLI / Pipeline in 
 
 Start each exercise from the stated scene and mode. Replace `<sample-folder>` with the imported folder if using the command examples below. The prompts let the assistant discover the folder and IDs itself.
 
+The [command examples](#command-examples-for-the-assistant) and the package's `Documentation~/CONTRACT.md` provide request fields for the assistant. Discovery uses `scope: "assets"`, `"prefabs"`, or `"loaded_scenes"`. A returned `child_path` is passed as `parent_element_guids` for a nested read. Omit `cursor` on the first request, pass a nonempty `next_cursor` for the next page, and finish when it becomes null.
+
 | Scene | What to observe |
 | --- | --- |
 | `Scenes/GraphShowcase.unity` | Embedded and external graphs on scene objects and prefab instances, independent counters, State Machine transitions |
@@ -180,7 +182,7 @@ unity command vs list_graphs --parameters '{"scope":"loaded_scenes"}' --project-
 unity command vs diagnostics --project-path /path/to/project --format json
 ```
 
-For discovery, use `scope` values `assets`, `prefabs`, and `loaded_scenes`. The first two accept the imported `folder`. Follow `data.next_cursor` with the same request plus `cursor` until the final page. A Macro owner exposes its external asset as `macro_target`. For nested reads, pass a returned `child_path` as `parent_element_guids`.
+For discovery, use `scope` values `assets`, `prefabs`, and `loaded_scenes`. The first two accept the imported `folder`. Omit `cursor` from the first request. When `data.next_cursor` contains a string, repeat the same request with that value as `cursor`; null marks the final page. A Macro owner exposes its external asset as `macro_target`. For nested reads, pass a returned `child_path` as `parent_element_guids`.
 
 ```json
 {"scope":"assets","folder":"<sample-folder>","page_size":2}

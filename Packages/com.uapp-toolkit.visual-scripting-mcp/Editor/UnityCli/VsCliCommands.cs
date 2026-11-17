@@ -65,17 +65,17 @@ namespace UAppToolKit.VisualScriptingMcp.UnityCli.Editor
 
         [CliCommand(Group, "validate_graph", "Read-only structural graph validation in idle Edit Mode. Same arguments as vs_read_graph. Reports errors separately from runtime dependencies and incomplete inspection. Does not execute or repair graphs.", MainThreadRequired = true)]
         public static JObject ValidateGraph(
-            [CliArg("parameters", "VS request as JSON; MCP accepts JSON text. Fields: Documentation~/CONTRACT.md", Required = true)] JObject parameters)
+            [CliArg("parameters", "JSON object, encoded as text for MCP. Required: target from discovery. Optional: parent_element_guids (the returned child_path array), max_depth (0-8), page_size (1-200), cursor (nonempty next_cursor from the previous page). Omit cursor on the first page and stop when next_cursor is null. Read validation_summary.status and inspection_complete.", Required = true)] JObject parameters)
             => Core.VsValidateGraph.HandleCommand(parameters);
 
         [CliCommand(Group, "list_graphs", "Read-only graph discovery in assets, prefabs or loaded scenes. Returns stable target IDs. Edit Mode only. Unloaded scenes are never opened.", MainThreadRequired = true)]
         public static JObject ListGraphs(
-            [CliArg("parameters", "VS request as JSON; MCP accepts JSON text. Fields: Documentation~/CONTRACT.md")] JObject parameters = null)
+            [CliArg("parameters", "JSON object, encoded as text for MCP. Optional: scope (assets, prefabs, or loaded_scenes), folder (Assets path for assets/prefabs), page_size (1-200), cursor (nonempty next_cursor from the previous page). Omit cursor on the first page and stop when next_cursor is null.")] JObject parameters = null)
             => Core.VsListGraphs.HandleCommand(parameters);
 
         [CliCommand(Group, "read_graph", "Read graph definition as paged records: nodes, ports, connections, variables and nested graphs. No Flow evaluation. Edit Mode only.", MainThreadRequired = true)]
         public static JObject ReadGraph(
-            [CliArg("parameters", "VS request as JSON; MCP accepts JSON text. Fields: Documentation~/CONTRACT.md", Required = true)] JObject parameters)
+            [CliArg("parameters", "JSON object, encoded as text for MCP. Required: target from discovery. Optional: parent_element_guids (the returned child_path array), max_depth (0-8), page_size (1-200), cursor (nonempty next_cursor from the previous page). Omit cursor on the first page and stop when next_cursor is null. Use edit_revision from the result for edits.", Required = true)] JObject parameters)
             => Core.VsReadGraph.HandleCommand(parameters);
     }
 }

@@ -109,6 +109,19 @@ namespace UAppToolKit.VisualScriptingMcp.Editor.Tests
             Assert.That(names.Distinct().Count(), Is.EqualTo(Commands.Length));
         }
 
+        [Test]
+        public void CoplaySettingsChangesAreDiscoveredAsAnObject()
+        {
+            if (FindAssembly(CoplayAssembly) == null) return;
+            var discoveryType = Type.GetType("MCPForUnity.Editor.Services.ToolDiscoveryService, MCPForUnity.Editor", true);
+            var discovery = Activator.CreateInstance(discoveryType);
+            var metadata = discoveryType.GetMethod("GetToolMetadata").Invoke(discovery, new object[] { "vs_update_settings" });
+            var parameters = (IEnumerable)metadata.GetType().GetProperty("Parameters").GetValue(metadata);
+            var changes = parameters.Cast<object>().Single(parameter =>
+                (string)parameter.GetType().GetProperty("Name").GetValue(parameter) == "Changes");
+            Assert.That(changes.GetType().GetProperty("Type").GetValue(changes), Is.EqualTo("object"));
+        }
+
         private static System.Reflection.Assembly FindAssembly(string name) =>
             AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(a => a.GetName().Name == name);
 
