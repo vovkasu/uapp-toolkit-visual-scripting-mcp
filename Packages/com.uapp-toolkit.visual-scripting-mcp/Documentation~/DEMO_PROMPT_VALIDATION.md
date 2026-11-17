@@ -3,6 +3,10 @@
 Date: 2026-11-17. Unity 6000.3.16f1, Visual Scripting 1.9.11,
 CoplayDev MCP 10.1.0, Unity CLI 1.0.1 / Pipeline 1.0.0.
 
+GUI persistence follow-up: 2026-11-18 (Europe/Kyiv). The original settings-save
+gap is fixed in `8edd66b`; prompt 8 now passes through both channels in ordinary
+unfocused GUI Editors. See [root cause, fix and regression evidence](SETTINGS_GUI_PERSISTENCE.md).
+
 ## Method
 
 The eight prompt blocks were extracted from the sample README and supplied
@@ -16,7 +20,10 @@ exact project, relayed requests, and retained request/response transcripts.
 Samples were imported with Unity Package Manager's Sample API. Prompts 1–7 ran
 sequentially in two GUI Editors, with each stated scene prepared beforehand.
 Prompt 8 used two additional disposable projects because it changes project
-settings. Its incomplete GUI attempts were retained and repeated in batchmode.
+settings. Initial incomplete GUI attempts and batchmode repeats are retained
+as historical evidence. After the persistence fix, fresh AI contexts repeated
+the exact prompt successfully through both channels in ordinary unfocused GUI,
+without direct save workarounds, batchmode or window activation.
 Prompt 1 was also repeated by fresh AI contexts after improving adapter metadata.
 All eight prompt texts remained unchanged.
 
@@ -38,7 +45,7 @@ button callbacks. Package graph mutations used the `vs_*` APIs.
 | 5 | Runtime variables | Passed | Passed | All five Scene Embed scopes available; scene/application values observed. Saved is empty merged runtime memory, not a disk claim. Both executed Macro child Graph scopes match definitions; Object effects show `Shared macro ran` and `Embedded step ran`. |
 | 6 | Clone and bind | Passed | Passed | Both clone policies saved/read/validated. Shared copy retains SharedStep; embedded copy has no nested Macro reference. Three real runs show `Reference cleared`, `Reference assigned`, `Shared macro ran`, each count 1. Original Embed, null Macro and exact Beacon reference restored and independently checked. |
 | 7 | Edit operations and prefab override | Passed | Passed | All nine edit operations; first batch adds two nodes, a connection and variable, changes setter name, moves/configures nodes. Cleanup restores the graph. Undo/Redo and saved reload verified; copy valid 0/0. Instance move creates `_data._json` override; Undo removes it. Independent final copy and prefab revision checks pass in both projects. |
-| 8 | Settings and custom Unit | Passed in batchmode | Passed in batchmode | Live and disk AOT sequence true → false → Undo true → Redo false → restored true. Regeneration jobs completed with 0 errors/warnings. Unit library and typed ports confirmed. Both cards produced assigned/cleared results, count 1; finished clean Edit Mode. |
+| 8 | Settings and custom Unit | Passed in unfocused GUI | Passed in unfocused GUI | Live and disk AOT sequence true → false → Undo true → Redo false → restored true; original whole-file hash restored. Regeneration jobs completed with 0 errors/warnings. Unit library and typed ports confirmed. Both cards produced assigned/cleared results, count 1; finished clean Edit Mode. No batchmode or window activation. |
 
 Read the captured [CoplayDev answers](DemoPromptValidation/coplay-answers.md) and
 [Pipeline answers](DemoPromptValidation/pipeline-answers.md), including exact
@@ -60,21 +67,30 @@ referenced by those answers are retained alongside them.
 - A CoplayDev AI passed null as the first cursor, which its generated native
   schema rejects. Both adapter descriptions and the sample guide now say to
   omit the first cursor, follow nonempty `next_cursor`, and stop at null.
+- VS's public save method deferred the file write to a GUI callback that could
+  remain queued in the background. Settings now save the existing backing
+  DictionaryAsset through the native API and verify disk values before
+  returning `saved`. Apply, Undo and Redo share this path; unloaded backing
+  assets and unrelated keys are covered by synchronous regressions.
 
-The source package compiled and its full EditMode suite passed:
-**92 passed, 0 failed, 0 skipped**, including the new adapter-schema regression.
-The [native Test Runner summary](DemoPromptValidation/regression.json) records
-the exact result; raw XML and MCP transcripts were retained locally with the
+The fixed source package compiled and its full EditMode suite passed in each
+GUI Editor: **94 passed, 0 failed, 0 skipped**. These are two runs of the same
+94 tests. Native summaries: [CoplayDev GUI project](DemoPromptValidation/coplay-gui-regression-94.json),
+[Pipeline GUI project](DemoPromptValidation/pipeline-gui-regression-94.json).
+The [initial 92-test summary](DemoPromptValidation/regression.json) and
+[two failing pre-fix persistence cases](DemoPromptValidation/gui-save-regression-before.json)
+are retained. Raw XML and MCP transcripts were retained locally with the
 validation projects under `/private/tmp/uapp-prompt-runs`.
 
 ## Limits and recovery evidence
 
-- In the unfocused GUI settings runs, live apply/Undo/Redo succeeded but the
+- In the initial unfocused GUI settings runs, live apply/Undo/Redo succeeded but the
   intermediate false value was not confirmed on disk before reload. The agents
   reported that gap. Visual Scripting's public save API schedules a delayed
   Editor callback. Batchmode repeats verified every disk transition using that
   normal asynchronous save, without a private synchronous-save workaround.
-  The sample README documents this observed limitation.
+  This was subsequently reproduced, fixed and verified by the current full GUI
+  repeats. The sample now documents the synchronous `saved` contract.
 - CoplayDev's already-running server retained its old generated native schema
   while older project adapters remained connected. The documented
   `execute_custom_tool` route accepted object requests and completed the full

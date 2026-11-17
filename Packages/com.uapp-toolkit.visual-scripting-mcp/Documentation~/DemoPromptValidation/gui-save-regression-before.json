@@ -1,0 +1,16 @@
+[
+  {
+    "fullName": "UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests.ApplyUndoRedoPersistBeforeTheNextEditorTick(False)",
+    "status": "Failed",
+    "duration": 0.100984,
+    "message": "  The settings operation must persist before returning, without an Editor tick or window focus.\n  Expected: False\n  But was:  True\n",
+    "stackTrace": "at UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests+<>c__DisplayClass14_1.<ApplyUndoRedoPersistBeforeTheNextEditorTick>b__2 (Unity.VisualScripting.DictionaryAsset assetOnDisk) [0x00000] in ./Packages/com.uapp-toolkit.visual-scripting-mcp/Tests/Editor/VsSettingsTests.cs:197\nat UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests.ReadSaved (System.Action`1[T] assert) [0x00062] in ./Packages/com.uapp-toolkit.visual-scripting-mcp/Tests/Editor/VsSettingsTests.cs:285\nat UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests+<>c__DisplayClass14_0.<ApplyUndoRedoPersistBeforeTheNextEditorTick>g__AssertPersisted|1 (System.Boolean expectedAot) [0x00013] in ./Packages/com.uapp-toolkit.visual-scripting-mcp/Tests/Editor/VsSettingsTests.cs:195\nat UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests.ApplyUndoRedoPersistBeforeTheNextEditorTick (System.Boolean unloadBackingAsset) [0x00112] in ./Packages/com.uapp-toolkit.visual-scripting-mcp/Tests/Editor/VsSettingsTests.cs:186\n"
+  },
+  {
+    "fullName": "UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests.ApplyUndoRedoPersistBeforeTheNextEditorTick(True)",
+    "status": "Failed",
+    "duration": 0.0571738,
+    "message": "  The settings operation must persist before returning, without an Editor tick or window focus.\n  Expected: False\n  But was:  True\n",
+    "stackTrace": "at UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests+<>c__DisplayClass14_1.<ApplyUndoRedoPersistBeforeTheNextEditorTick>b__2 (Unity.VisualScripting.DictionaryAsset assetOnDisk) [0x00000] in ./Packages/com.uapp-toolkit.visual-scripting-mcp/Tests/Editor/VsSettingsTests.cs:197\nat UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests.ReadSaved (System.Action`1[T] assert) [0x00062] in ./Packages/com.uapp-toolkit.visual-scripting-mcp/Tests/Editor/VsSettingsTests.cs:285\nat UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests+<>c__DisplayClass14_0.<ApplyUndoRedoPersistBeforeTheNextEditorTick>g__AssertPersisted|1 (System.Boolean expectedAot) [0x00013] in ./Packages/com.uapp-toolkit.visual-scripting-mcp/Tests/Editor/VsSettingsTests.cs:195\nat UAppToolKit.VisualScriptingMcp.Editor.Tests.VsSettingsTests.ApplyUndoRedoPersistBeforeTheNextEditorTick (System.Boolean unloadBackingAsset) [0x00112] in ./Packages/com.uapp-toolkit.visual-scripting-mcp/Tests/Editor/VsSettingsTests.cs:186\n"
+  }
+]

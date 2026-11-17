@@ -1,6 +1,6 @@
 # Actual AI responses: CoplayDev MCP
 
-Captured on 2026-11-17. These are actual assistant answers, not the README example answers. Local file links are rendered as historical paths; screenshot links point to retained copies. Answer text is otherwise unchanged. Local paths and session IDs refer to disposable validation projects. Prompt 1 is the fresh-context repeat after adapter metadata fixes; prompt 8 is the completed batchmode repeat. Other prompts are from the initial sequential walkthrough. See [the validation report](../DEMO_PROMPT_VALIDATION.md) for methodology, independent checks, and initial limitations.
+Initial walkthrough: 2026-11-17; GUI persistence follow-up: 2026-11-18 (Europe/Kyiv). These are actual assistant answers, not the README example answers. Local file links are rendered as historical paths; screenshot links point to retained copies. Answer text is otherwise unchanged. Local paths and session IDs refer to disposable validation projects. Prompt 1 is the fresh-context repeat after adapter metadata fixes; prompt 8 is the completed ordinary, unfocused GUI repeat after the persistence fix. Other prompts are from the initial sequential walkthrough. See [the validation report](../DEMO_PROMPT_VALIDATION.md) for methodology, independent checks, and initial limitations.
 
 ## 1. Ask the AI to discover and explain graphs
 
@@ -311,6 +311,192 @@ Inspect the sample Demo Has Reference C# Unit, its graph usage, and its typed po
 
 **Actual response**
 
+Completed prompt 8 in `/private/tmp/uapp-prompt-runs/VsDemoCoplaySettingsAI` through CoplayDev MCP. Unity 6000.3.16f1 / Visual Scripting 1.9.11. Final state: idle Edit Mode, CustomNodeLab open and clean, Console empty, original settings restored. No incomplete save, regeneration job, or requested runtime verification remains.
+
+The C# Unit `UAppToolKit.VisualScriptingMcp.Samples.DemoHasReference` is titled “Demo Has Reference” in category `UAppToolKit/Demo`. Its `Definition()` declares:
+
+| Port | Kind | Type | Behavior |
+|---|---|---|---|
+| `target` | ValueInput | `UnityEngine.Object` | Default null, explicitly allows null |
+| `isAssigned` | ValueOutput | `System.Boolean` | Returns `flow.GetValue<Object>(Target) != null` |
+
+It declares `Requirement(Target, IsAssigned)` and has no control ports. Source was read through MCP from `Assets/Samples/UAppToolKit Visual Scripting MCP/1.1.0/Visual Scripting Demo/Nodes/DemoHasReference.cs`; no source files were edited.
+
+Both scene machines use embedded Flow Graphs with 23 elements. Each graph read completed with 27 records and no remaining cursor. Both custom nodes were defined without a definition error. `CheckReference` increments object `RunCount`, reads object `DemoReference` into the custom `target`, passes `isAssigned` into an If condition, and writes “Reference assigned” or “Reference cleared” into object `Result`. Assigned Reference holds Reference Beacon; Empty Reference holds null. Initial values were `RunCount=0`, `Result="Ready"`.
+
+Original supported project settings were `aot_safe_mode=true`, 62 assemblies, and 51 types. Their exact returned values are recorded below. Storage is `ProjectSettings/VisualScriptingSettings.asset`; Undo scope is `current_domain_settings_only`. Original revision:
+
+`79391F7D2576C24F1655F329E22760DD7656E1099F3F2A9E48018C00DEE2F847`
+
+I previewed the explicit `aot_safe_mode: true → false` change with the original revision, then applied it using `vs_update_settings`. Apply reported `applied=true`, `save_status="saved"`. Flipped revision:
+
+`4C08B296CD5475872B996605D1AB1163A11784BF7CB22340217646BE5EE83D70`
+
+Ordinary `manage_editor undo` and `redo` affected “Update Visual Scripting settings via MCP”. I then separately previewed/applied restoration to true. After every mutation, the immediately following MCP call read the actual saved file via bridge C#; `vs_get_settings` separately confirmed the live value. No manual file rewriting, synchronous save workaround, focus change, or batch-mode operation was used.
+
+All following times are UTC on 2026-11-17:
+
+| Action | Live / saved AOT value | Saved file modification time | Immediate next MCP disk observation | Observation after file write |
+|---|---|---|---|---|
+| Apply flip | false / false | 22:11:01.1825702 | 22:11:04.951783 | 3.769 s |
+| Undo | true / true | 22:11:22.4744292 | 22:11:26.047599 | 3.573 s |
+| Redo | false / false | 22:11:33.8630969 | 22:11:36.938141 | 3.075 s |
+| Restore original | true / true | 22:11:54.7664636 | 22:11:58.036582 | 3.270 s |
+
+The editor was a normal background GUI: `Application.isBatchMode=false`, `InternalEditorUtility.isApplicationActive=false`, and `EditorWindow.focusedWindow=null` in every pre/post save-phase observation. `Application.isFocused` differed and returned true during these Edit Mode settings checks; the final observation returned false. I did not activate a window. Thus the background-editor assertion uses the Editor-active flag, and the differing Application flag is preserved rather than hidden.
+
+Original and restored saved-file SHA-256 matched exactly:
+
+`96F0DE0F215D082157ACB40894640C088849CBE8A669B0F5567266F5BC1238F1`
+
+The final `vs_get_settings` supported-settings object is also exactly equal to the original object, including assembly/type order.
+
+I explicitly previewed then applied node regeneration with `Changes={}`, `RegenerateNodes=true`, and the restored revision. Preview returned `applied=false`, `save_status="not_requested"`, `regenerate_nodes=true`. Apply created pending job `36ddbf04f9fd46fb88963bca39c0a60e`; no duplicate regeneration was submitted. Polling `vs_get_settings` eventually reported that same job `completed`, with `errors=0`, `warnings=0`, and the original settings revision. The bridge temporarily disconnected during polling; retries also encountered TimeoutError and “session not ready / ping not answered” before recovery. The original job completed successfully and remained completed in the final settings response.
+
+The actual generated node-library query `UnitBase.Subset(UnitOptionFilter.Any, GraphReference.New(assignedMachine, true))` returned 31,215 options, including `DemoHasReference` in `UAppToolKit/Demo`, with input type `UnityEngine.Object`, output type `System.Boolean`, and zero control inputs/outputs. An earlier query with a null graph context returned a NullReferenceException from contextual variable-name lookup; the valid-context retry succeeded. This was a tool inspection error, and the Console remained empty.
+
+In Play Mode, I invoked the existing public `DemoPanel.Trigger(0)` and `Trigger(1)` methods used by the cards’ Run graph button callbacks. Both returned true. I inspected actual UIDocument labels and independently read `vs_runtime_variables` for both runtime machines in session `a2651f7a82e04d3ba28d568de090ce51`:
+
+| Card | Reference | Before | Actual result | Actual count / UI label |
+|---|---|---|---|---|
+| Assigned Reference | Reference Beacon | Ready / 0 | Reference assigned | 1 / “1 run” |
+| Empty Reference | null | Ready / 0 | Reference cleared | 1 / “1 run” |
+
+Both result labels had `station-result--ran`. The after-run UI/variable observation was at 22:15:29.095754 UTC. Both machines were active, enabled, listening, and had runtime data. The Console returned zero entries before settings work, after regeneration, after running the cards, and at final inspection.
+
+Final bridge observation at 22:16:20.657589 UTC confirmed `playing=false`, `batch=false`, `application_focused=false`, `editor_active=false`, no focused window, original file hash, and saved AOT true. Final diagnostics confirmed idle Edit Mode, no compilation/update/transition, and a clean CustomNodeLab scene.
+
+Limits: regeneration completion confirms database generation; it does not prove Player/AOT compatibility. This run verified the Editor cards through their real public callback path and observed UI/runtime state; it did not physically mouse-click the buttons, build a Player, generate AOT C#, or test destroyed-object reference semantics. Undo was verified within the current editor domain. No requested save, job, or card verification is incomplete.
+
+Exact original supported settings returned by `vs_get_settings` (also equal to final settings):
+
+```json
+{
+  "aot_safe_mode": true,
+  "assemblies": [
+    "mscorlib",
+    "Assembly-CSharp-firstpass",
+    "Assembly-CSharp",
+    "UnityEngine",
+    "UnityEngine.CoreModule",
+    "UnityEngine.InputModule",
+    "UnityEngine.ClusterInputModule",
+    "UnityEngine.InputLegacyModule",
+    "UnityEngine.PhysicsModule",
+    "UnityEngine.Physics2DModule",
+    "UnityEngine.TerrainPhysicsModule",
+    "UnityEngine.VehiclesModule",
+    "UnityEngine.AudioModule",
+    "UnityEngine.AnimationModule",
+    "UnityEngine.VideoModule",
+    "UnityEngine.DirectorModule",
+    "UnityEngine.Timeline",
+    "UnityEngine.ParticleSystemModule",
+    "UnityEngine.ParticlesLegacyModule",
+    "UnityEngine.WindModule",
+    "UnityEngine.ClothModule",
+    "UnityEngine.TilemapModule",
+    "UnityEngine.SpriteMaskModule",
+    "UnityEngine.TerrainModule",
+    "UnityEngine.ImageConversionModule",
+    "UnityEngine.TextRenderingModule",
+    "UnityEngine.ClusterRendererModule",
+    "UnityEngine.ScreenCaptureModule",
+    "UnityEngine.AIModule",
+    "UnityEngine.UI",
+    "UnityEngine.UIModule",
+    "UnityEngine.IMGUIModule",
+    "UnityEngine.UIElementsModule",
+    "UnityEngine.StyleSheetsModule",
+    "UnityEngine.VR",
+    "UnityEngine.VRModule",
+    "UnityEngine.ARModule",
+    "UnityEngine.HoloLens",
+    "UnityEngine.SpatialTracking",
+    "UnityEngine.GoogleAudioSpatializer",
+    "UnityEngine.Networking",
+    "UnityEngine.Analytics",
+    "UnityEngine.Advertisements",
+    "UnityEngine.Purchasing",
+    "UnityEngine.UnityConnectModule",
+    "UnityEngine.UnityAnalyticsModule",
+    "UnityEngine.GameCenterModule",
+    "UnityEngine.AccessibilityModule",
+    "UnityEngine.AndroidJNIModule",
+    "UnityEngine.AssetBundleModule",
+    "UnityEngine.FileSystemHttpModule",
+    "UnityEngine.JSONSerializeModule",
+    "UnityEngine.UmbraModule",
+    "Unity.Timeline",
+    "Unity.Timeline.Editor",
+    "Cinemachine",
+    "com.unity.cinemachine.editor",
+    "Unity.InputSystem",
+    "Unity.TextMeshPro",
+    "Unity.VisualScripting.Core",
+    "Unity.VisualScripting.Flow",
+    "Unity.VisualScripting.State"
+  ],
+  "types": [
+    "System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Vector4, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Quaternion, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Matrix4x4, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Rect, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Bounds, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.LayerMask, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Ray, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Ray2D, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.RaycastHit, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.RaycastHit2D, UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.ContactPoint, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.ContactPoint2D, UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.ParticleCollisionEvent, UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.SceneManagement.Scene, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Application, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Resources, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Mathf, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Debug, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Input, UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Touch, UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Screen, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Cursor, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Time, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Random, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Physics, UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Physics2D, UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.SceneManagement.SceneManager, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.GUI, UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.GUILayout, UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.GUIUtility, UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Audio.AudioMixerGroup, UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.AI.NavMesh, UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.Gizmos, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.AnimatorStateInfo, UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.EventSystems.BaseEventData, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.EventSystems.PointerEventData, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "UnityEngine.EventSystems.AxisEventData, UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "System.Collections.IList, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "System.Collections.IDictionary, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "Unity.VisualScripting.AotList, Unity.VisualScripting.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "Unity.VisualScripting.AotDictionary, Unity.VisualScripting.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "System.Exception, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+  ]
+}
+```
+
+## Earlier batchmode settings repeat
+
+Historical result before the synchronous persistence fix. The current GUI result is prompt 8 above.
+
 Inspected `DemoHasReference.cs`, both CustomNodeLab graph usages, and their typed ports through CoplayDev MCP. “Demo Has Reference” is under `UAppToolKit/Demo`: nullable `target` (`UnityEngine.Object`, default null) → `isAssigned` (`System.Boolean`), with a requirement from input to output and no control ports. It evaluates Unity Object non-null comparison. Both graphs wire Object `DemoReference` into `target` and `isAssigned` into If; Assigned Reference contains Reference Beacon, Empty Reference contains null.
 
 Recorded current settings in `settings-original-08-final.json`: AOT Safe Mode true, 62 ordered assembly entries, 51 ordered type entries. Initial/final revision: `79391F7D2576C24F1655F329E22760DD7656E1099F3F2A9E48018C00DEE2F847`.
@@ -332,7 +518,7 @@ Adapter limitation: fresh native tool schema discovery still advertised `Changes
 
 ## Initial settings attempt
 
-The first GUI attempt correctly reported incomplete disk persistence. It was repeated in batchmode with normal asynchronous saving; see prompt 8 above.
+The first GUI attempt correctly reported incomplete disk persistence. It was first repeated in batchmode, then fixed and verified in ordinary GUI; see prompt 8 above.
 
 Inspected `DemoHasReference.cs`, both CustomNodeLab graphs, and the live typed ports. “Demo Has Reference” is under `UAppToolKit/Demo`: nullable `target` input (`UnityEngine.Object`, default null), Boolean `isAssigned` output, no control ports. Its output evaluates Unity Object non-null comparison. Both graphs connect Object `DemoReference` → `target` → If condition and increment `RunCount`; Assigned Reference holds Reference Beacon, Empty Reference holds null.
 
