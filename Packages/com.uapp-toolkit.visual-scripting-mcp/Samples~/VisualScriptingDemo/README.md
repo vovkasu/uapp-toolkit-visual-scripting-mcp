@@ -6,6 +6,8 @@ Use this sample to ask an AI assistant to inspect, diagnose, and edit Unity Visu
 
 Import **Visual Scripting Demo** from the package's **Samples** tab in Unity Package Manager. Find it under `Assets/Samples/UAppToolKit Visual Scripting MCP/<package-version>/Visual Scripting Demo`.
 
+The Unity project in this repository includes CoplayDev MCP `10.1.0` and Unity Pipeline `1.0.0`. For CoplayDev, open **Window → MCP for Unity**, start the local HTTP server and Editor session, and connect your AI client to the endpoint shown there. When importing this sample into another project, install your chosen bridge as described in the package's adapter documentation.
+
 Connect your AI client to either CoplayDev Unity MCP or Unity CLI / Pipeline in the same project. The assistant uses this package's `vs_*` commands for graphs and the connected Unity bridge for opening scenes, inspecting ordinary components, pressing buttons or sending events, controlling Play Mode, reading Console, and saving. When a needed action is unavailable, perform that action in Unity and let the assistant continue. The scenes can also run directly in Play Mode.
 
 Start each exercise from the stated scene and mode. Replace `<sample-folder>` with the imported folder if using the command examples below. The prompts let the assistant discover the folder and IDs itself.
