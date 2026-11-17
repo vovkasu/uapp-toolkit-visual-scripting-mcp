@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="DemoPanel.uss" />
+    <ui:ScrollView name="demoShell" class="demo-shell" mode="Vertical" horizontal-scroller-visibility="Hidden">
+        <ui:VisualElement class="demo-page">
+            <ui:Label name="heading" class="demo-heading" />
+            <ui:Label name="subtitle" class="demo-subtitle" />
+            <ui:VisualElement name="stations" class="stations" />
+        </ui:VisualElement>
+    </ui:ScrollView>
+</ui:UXML>

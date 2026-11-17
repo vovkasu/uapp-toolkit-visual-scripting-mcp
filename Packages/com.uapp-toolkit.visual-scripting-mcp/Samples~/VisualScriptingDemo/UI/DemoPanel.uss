@@ -1,0 +1,135 @@
+.demo-shell {
+    flex-grow: 1;
+    min-height: 0;
+    background-color: #101827;
+    color: #f1f5fb;
+}
+
+.demo-page {
+    align-self: center;
+    width: 100%;
+    max-width: 1160px;
+    padding: 30px 26px 24px;
+}
+
+.demo-heading,
+.demo-subtitle {
+    margin: 0 7px;
+    white-space: normal;
+}
+
+.demo-heading {
+    color: #f1f5fb;
+    font-size: 34px;
+    -unity-font-style: bold;
+}
+
+.demo-subtitle {
+    margin-top: 6px;
+    margin-bottom: 20px;
+    color: #aebdd0;
+    font-size: 15px;
+}
+
+.stations {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.station-slot {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 33.33%;
+    padding: 0 7px 14px;
+}
+
+.stations--two-columns > .station-slot {
+    width: 50%;
+}
+
+.stations--one-column > .station-slot {
+    width: 100%;
+}
+
+.station-card {
+    flex-grow: 1;
+    min-width: 0;
+    min-height: 150px;
+    padding: 15px 15px 12px;
+    background-color: #1a2639;
+    border-width: 1px;
+    border-color: #34465e;
+    border-radius: 12px;
+}
+
+.station-name,
+.station-source,
+.station-result,
+.station-count {
+    margin: 0;
+    white-space: normal;
+}
+
+.station-name {
+    font-size: 17px;
+    -unity-font-style: bold;
+}
+
+.station-source {
+    margin-top: 4px;
+    color: #b8c7db;
+    font-size: 13px;
+}
+
+.station-result {
+    flex-grow: 1;
+    min-height: 20px;
+    margin-top: 13px;
+    color: #dce6f3;
+    font-size: 14px;
+}
+
+.station-result--ran {
+    color: #9de9cc;
+}
+
+.station-actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.station-count {
+    color: #b8c7db;
+    font-size: 13px;
+}
+
+.station-run {
+    min-height: 30px;
+    margin: 0 0 0 8px;
+    padding: 4px 12px;
+    background-color: #94d4ec;
+    color: #101827;
+    border-width: 1px;
+    border-color: #94d4ec;
+    border-radius: 7px;
+    -unity-font-style: bold;
+}
+
+.station-run:hover,
+.station-run:focus {
+    background-color: #c2eeff;
+    border-color: #c2eeff;
+}
+
+.station-run:active {
+    background-color: #67b6d4;
+    border-color: #67b6d4;
+}
+
+.station-run:disabled {
+    background-color: #47586e;
+    color: #dce6f3;
+    border-color: #47586e;
+}

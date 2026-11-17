@@ -16,7 +16,8 @@ namespace UAppToolKit.VisualScriptingMcp.CoplayDev.Editor
         public class Parameters
         {
             [ToolParameter("Supported changes object; empty allowed for regeneration only", Required = true)]
-            public JObject Changes { get; set; }
+            // CoplayDev classifies IEnumerable types, including JObject, as arrays.
+            public object Changes { get; set; }
             [ToolParameter("Revision from vs_get_settings or preview", Required = true)]
             public string ExpectedRevision { get; set; }
             [ToolParameter("Preview only", Required = false, DefaultValue = "true")]

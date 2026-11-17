@@ -84,10 +84,15 @@ Editor entries are not silently removed.
 Preview returns a per-field before/after `diff`, `revision`, `result_revision`,
 and `warnings`; apply also returns `applied`. The entire request is validated first.
 Writes use PluginConfigurationItemMetadata.value/Save and Codebase.UpdateSettings.
-The package saves project settings asynchronously:
-`save_status=scheduled_by_visual_scripting` does not confirm a disk write. Let the
-Editor process UI updates and verify the file before closing or recompiling.
-Other settings are not manually rewritten inside serialized JSON.
+Changed settings are saved synchronously through Unity's native serialized-file
+API, using Visual Scripting's existing backing DictionaryAsset. Apply returns
+`save_status=saved` only after an independent disk read confirms the changed
+values. Preview and no-op requests return `save_status=not_requested`.
+The same persistence path is used by Undo/Redo, without waiting for a GUI update,
+window focus or batchmode. A guarded compatibility check accesses the internal
+VS backing-asset property before mutation; metadata.Save retains VS's normal
+recovery when Unity has unloaded that asset. Other keys and object references
+are preserved in the whole asset; serialized JSON is not manually rewritten.
 
 Unity Undo/Redo supports affected values in the current domain through an
 Editor-only token and the same settings API. It does not undo C# changes or the

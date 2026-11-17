@@ -47,6 +47,20 @@ In a new project, open a Visual Scripting graph and wait for initial setup befor
 working with settings. Until then, settings commands return
 `visual_scripting_not_initialized`; reading does not start node generation implicitly.
 
+## Visual Scripting Demo sample
+
+In Unity Package Manager, open this package's **Samples** tab and import
+**Visual Scripting Demo**. Open `Scenes/GraphShowcase.unity` and enter Play Mode
+to run embedded and external graphs on scene objects and prefabs. The sample
+also includes scenes for diagnosing an event mismatch, binding graphs and object
+references, and running a custom Unit. Its scenes run with either adapter or
+with the package core alone. Follow the
+[sample walkthrough](Samples~/VisualScriptingDemo/README.md) for copyable AI prompts,
+example responses, and observable results covering all 14 commands.
+
+The [AI prompt validation report](Documentation~/DEMO_PROMPT_VALIDATION.md) records
+the actual responses and Unity results for all eight prompts through both bridges.
+
 ## Connecting through CoplayDev
 
 1. Install the dependencies and package as described above; wait for successful compilation.
@@ -195,9 +209,10 @@ read the state first: the operation may have completed despite the lost response
   null clears the value. Uses an existing Variables component without adding one.
   Apply requires its preview revision; assignments support Undo without autosaving.
 - `vs_get_settings` → `vs_update_settings` with changes and expected_revision.
-  The package saves settings asynchronously; scheduled is not saved. Let the
-  Editor process UI updates, activating its window if necessary, and verify the
-  file before closing/reloading. Regenerate_nodes=true starts an expensive job;
+  Apply saves and reads back the changed settings before returning
+  `save_status=saved`, including in an unfocused GUI Editor. Undo/Redo uses the
+  same persistence path; preview/no-op returns `not_requested`.
+  Regenerate_nodes=true starts an expensive job;
   poll regeneration until completed/failed/interrupted instead of repeating apply.
   Settings Undo lasts until domain reload and does not undo database generation.
 - New C# nodes: see [CUSTOM_NODES.md](Documentation~/CUSTOM_NODES.md) for the template

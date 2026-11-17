@@ -58,7 +58,7 @@ namespace UAppToolKit.VisualScriptingMcp.Editor
             }
             return new JObject { ["dry_run"] = dryRun, ["revision"] = VsSettingsPlan.Revision(before),
                 ["result_revision"] = VsSettingsPlan.Revision(after), ["diff"] = diff, ["applied"] = !dryRun && diff.Count > 0,
-                ["save_status"] = !dryRun && diff.Count > 0 ? "scheduled_by_visual_scripting" : "not_requested",
+                ["save_status"] = !dryRun && diff.Count > 0 ? "saved" : "not_requested",
                 ["regenerate_nodes"] = regenerate, ["regeneration"] = VsNodeRegeneration.Read(),
                 ["warnings"] = warnings, ["undo_scope"] = "current_domain_settings_only" };
         }
@@ -103,15 +103,16 @@ namespace UAppToolKit.VisualScriptingMcp.Editor
         {
             if (values.Count == 0) return;
             var configuration = BoltCore.Configuration;
+            VsSettingsStorage.CheckAvailable();
             foreach (var pair in values)
             {
                 var metadata = configuration.GetMetadata(MetadataNames[pair.Key]);
                 metadata.value = pair.Value;
                 metadata.Save();
             }
-            configuration.SaveProjectSettingsAsset(true);
-            UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
-            UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
+            // Metadata.Save also reloads a backing asset unloaded by Unity.
+            VsSettingsStorage.Save(VsSettingsStorage.Resolve(configuration),
+                values.Keys.Select(key => configuration.GetMetadata(MetadataNames[key]).key));
             Codebase.UpdateSettings();
         }
     }

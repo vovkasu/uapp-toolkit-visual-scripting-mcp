@@ -15,7 +15,7 @@ namespace UAppToolKit.VisualScriptingMcp.CoplayDev.Editor
             public string Folder { get; set; }
             [ToolParameter("Page size, 1-200", Required = false, DefaultValue = "50")]
             public int PageSize { get; set; }
-            [ToolParameter("Opaque cursor from previous response", Required = false)]
+            [ToolParameter("Nonempty next_cursor from the previous page. Omit this field on the first page; stop when next_cursor is null.", Required = false)]
             public string Cursor { get; set; }
         }
 
@@ -29,13 +29,13 @@ namespace UAppToolKit.VisualScriptingMcp.CoplayDev.Editor
         {
             [ToolParameter("Exact target returned by vs_list_graphs")]
             public string Target { get; set; }
-            [ToolParameter("Nested parent element GUID path", Required = false)]
+            [ToolParameter("Pass the returned child_path array to select a nested graph.", Required = false)]
             public string[] ParentElementGuids { get; set; }
             [ToolParameter("Nested depth, 0-8", Required = false, DefaultValue = "2")]
             public int MaxDepth { get; set; }
             [ToolParameter("Page size, 1-200", Required = false, DefaultValue = "50")]
             public int PageSize { get; set; }
-            [ToolParameter("Opaque cursor from previous response", Required = false)]
+            [ToolParameter("Nonempty next_cursor from the previous page. Omit this field on the first page; stop when next_cursor is null.", Required = false)]
             public string Cursor { get; set; }
         }
 

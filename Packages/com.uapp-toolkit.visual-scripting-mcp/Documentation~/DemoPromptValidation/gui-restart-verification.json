@@ -1,0 +1,16 @@
+{
+  "coplay": {
+    "batch": false,
+    "editorActive": false,
+    "playing": false,
+    "aot": true,
+    "sha": "96f0de0f215d082157acb40894640c088849cbe8a669b0f5567266f5bc1238f1"
+  },
+  "pipeline": {
+    "batch": false,
+    "editorActive": false,
+    "playing": false,
+    "aot": true,
+    "sha": "96f0de0f215d082157acb40894640c088849cbe8a669b0f5567266f5bc1238f1"
+  }
+}
