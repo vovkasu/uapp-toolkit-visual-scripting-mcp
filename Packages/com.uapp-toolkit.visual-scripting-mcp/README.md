@@ -55,7 +55,8 @@ to run embedded and external graphs on scene objects and prefabs. The sample
 also includes scenes for diagnosing an event mismatch, binding graphs and object
 references, and running a custom Unit. Its scenes run with either adapter or
 with the package core alone. Follow the
-[sample walkthrough](Samples~/VisualScriptingDemo/README.md) to try all 14 commands.
+[sample walkthrough](Samples~/VisualScriptingDemo/README.md) for copyable AI prompts,
+example responses, and observable results covering all 14 commands.
 
 ## Connecting through CoplayDev
 

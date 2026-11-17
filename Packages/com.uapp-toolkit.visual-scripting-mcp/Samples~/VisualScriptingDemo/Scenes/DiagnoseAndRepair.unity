@@ -150,12 +150,12 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::UAppToolKit.VisualScriptingMcp.Samples.DemoPanel
   heading: Diagnose and Repair
-  subtitle: Send AdvanceTutorial and inspect how the graph responds.
+  subtitle: Send Demo.Run and inspect how the graph responds.
   rows:
   - Label: Repair Station
     Source: Scene object / Macro
     Target: {fileID: 1498265757}
-    EventName: AdvanceTutorial
+    EventName: Demo.Run
 --- !u!114 &284866426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.VisualScripting.Core::Unity.VisualScripting.Variables
   _data:
     _json: '{"declarations":{"Kind":"Object","collection":{"$content":[{"name":"RunCount","value":{"$content":0,"$type":"System.Int32"},"typeHandle":{"Identification":null,"$version":"A"},"$version":"A"},{"name":"Result","value":{"$content":"Waiting
-      for AdvanceTutorial","$type":"System.String"},"typeHandle":{"Identification":null,"$version":"A"},"$version":"A"},{"name":"Completed","value":{"$content":false,"$type":"System.Boolean"},"typeHandle":{"Identification":null,"$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
+      for Demo.Run","$type":"System.String"},"typeHandle":{"Identification":null,"$version":"A"},"$version":"A"},{"name":"Completed","value":{"$content":false,"$type":"System.Boolean"},"typeHandle":{"Identification":null,"$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
     _objectReferences: []
 --- !u!4 &1498265760
 Transform:
